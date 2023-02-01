@@ -91,22 +91,26 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-8 my-md-auto mt-3">
-                    <h4>
-                       <a class="btn" href="{{ url('/collections') }}"></a> 
-                    </h4>
-                </div>
-                <div class="col-md-4 mt-3">
-                    <div class="shadow-sm bg-white p-3">
-                        <h4>Total:
-                            <span>${{ $totalPrice }}</span>
+            @if ($cart)
+                <div class="row">
+                    <div class="col-md-8 my-md-auto mt-3">
+                        <h4>
+                        <a class="btn" href="{{ url('/collections') }}"></a> 
                         </h4>
-                        <hr>
-                        <a href="{{ url('/checkout') }}" class="btn btn-warning w-100">Buy Now</a>
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <div class="shadow-sm bg-white p-3">
+                            <h4>Total:
+                                <span>${{ $totalPrice }}</span>
+                            </h4>
+                            <hr>
+                            <a href="{{ url('/checkout') }}" class="btn btn-warning w-100">Buy Now</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @else
+                
+            @endif
 
         </div>
     </div>

@@ -35,15 +35,20 @@ Route::controller(FrontentController::class)->group(function(){
     Route::get('/collections/{category_slug}','products');
     Route::get('/collections/{category_slug}/{product_slug}','productView');
     Route::get('/new-arrivals','newArrivals');
+    Route::get('search','searchProduct');
 });
 
 Route::middleware(['auth'])->group(function(){
     Route::get('/profile',[ProfileController::class,'index']);
+    Route::post('profile',[ProfileController::class,'updateUserDetails']);
     Route::get('/wishlist',[WishlistController::class,'index']);
     Route::get('/cart',[CartController::class,'index']);
     Route::get('/checkout',[CheckoutController::class,'index']);
     Route::get('/orders',[OrderController::class,'index']);
     Route::get('/orders/{orderId}',[OrderController::class,'show']);
+    Route::get('/orders/cancel/{orderId}',[OrderController::class,'cancelOrder']);
+    Route::get('change-password',[ProfileController::class,'passwordCreate']);
+    Route::post('change-password',[ProfileController::class,'changePassword']);
 
 });
 
@@ -113,6 +118,7 @@ Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function (){
        Route::put('/orders/{orderId}','updateOrderStatus');
        Route::get('/invoice/{orderId}','viewInvoice');
        Route::get('/invoice/{orderId}/generate','generateInvoice');
+       Route::get('/invoice/{orderId}/mail','mailInvoice');
 
     });
 

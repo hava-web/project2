@@ -63,7 +63,15 @@
 
                                             </tbody>
                                         </table>
-                                        <a href="{{ url('orders/'.$order->id) }}" class="btn btn-primary btn-sm float-end">View Details</a>
+
+                                        @if ($order->status_message == "in progress")
+                                            <div>
+                                                <a href="{{ url('orders/'.$order->id) }}" class="btn btn-primary btn-sm float-end">View Details</a>
+                                                <a href="{{ url('orders/cancel/'.$order->id) }}" class="btn btn-danger btn-sm float-end mr-2">Cancel Order</a>
+                                            </div>
+                                        @else
+                                            <a href="{{ url('orders/'.$order->id) }}" class="btn btn-primary btn-sm float-end">View Details</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>     

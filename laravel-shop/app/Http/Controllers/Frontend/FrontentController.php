@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Slider;
 use Illuminate\Http\Request;
+use Svg\Tag\Rect;
 
 class FrontentController extends Controller
 {
@@ -52,7 +53,7 @@ class FrontentController extends Controller
             }
             else
             {
-                return redirect()->back;
+                return redirect()->back();
                 // return "Have some error";
             }
 
@@ -72,5 +73,19 @@ class FrontentController extends Controller
     {
         $newArrivalProducts = Product::latest()->take(3)->get();
         return view('frontend.pages.new-arrival',compact('newArrivalProducts'));
+    }
+
+    public function searchProduct(Request $request)
+    {
+        if($request->search)
+        {
+            $searchProduct = Product::where('name','LIKE','%'.$request->search.'%')->latest()->paginate(10);
+            return view('frontend.pages.search',compact('searchProduct'));
+
+        }
+        else
+        {
+            return redirect()->back()->with('message','Product Not Available');
+        }
     }
 }

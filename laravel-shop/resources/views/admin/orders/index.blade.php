@@ -8,6 +8,7 @@
     {{ $dateNow }}
     {{ $order1 }} --}}
     {{-- {{ $sub }} --}}
+    
     <div class="card-body">
         <form action="" method="GET">
             <div class="row">
@@ -35,9 +36,10 @@
         <hr>
     </div>
     <div class="card-body rounded  shadow p-3 mb-5 bg-white rounded ">
+        <input type="text" class="form-control mb-3" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
             <div class="shadow bg-white p-3">
                 <div class="table-responsive">
-                    <table class="table bordered table-striped ">
+                    <table class="table bordered table-striped " id="myTable">
                         <thead>
                             <tr>
                                 <th>Order Id</th>
@@ -87,6 +89,29 @@
                         </div>
                     </div>
                 </div>
-            </div>     
+            </div> 
+    
+            
+        
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+</script>
    
 @endsection

@@ -28,4 +28,22 @@ class OrderController extends Controller
             return redirect()->back()->with('message','No Order Found');
         }
     }
+
+    public function cancelOrder($orderId)
+    {
+        $order = Order::where('id',$orderId)->first();
+
+        if($order) 
+        {
+            $order->update([
+                'status_message' => "canceled"
+            ]);
+
+            return redirect('orders');
+        }
+        else
+        {
+            return redirect('ordes')->with('message','Sorry Order ID not found');
+        }
+    }
 }

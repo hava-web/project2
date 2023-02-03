@@ -10,7 +10,7 @@ use App\Models\Customer;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $earning = Order::select(
             DB::raw('sum(total_price) as sums'), 
@@ -31,7 +31,15 @@ class DashboardController extends Controller
         $customers = Customer::count();
 
         $orders_pending = Order::where('status_message','pending')->count();
-        return view('admin.dashboard',compact('earning','total','orders','orders_pending','customers'));
+
+        $orderInfors = Order::when($request->date != null,function($q) use ($request){
+            return $q->whereDate('created_at',$request->date);
+    })
+                    ->when($request->status != null,function($q) use ($request){
+             return $q->where('status_message',$request->status);
+    })
+                    ->paginate(10);
+        return view('admin.dashboard',compact('earning','total','orders','orders_pending','customers','orderInfors'));
     }
     
 }

@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="">Password</label>
-                    <input type="text" name="password"  class="form-control" id="">
+                    <input type="text" name="password" value=""  class="form-control" id="">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="">Select Role</label>

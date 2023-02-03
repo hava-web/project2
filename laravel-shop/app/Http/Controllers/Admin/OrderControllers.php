@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use App\Mail\InvoiceOrderMailable;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 class OrderControllers extends Controller
 {
@@ -30,6 +33,18 @@ class OrderControllers extends Controller
         })
                         ->paginate(10);
         return view('admin.orders.index',compact('orders','todayDate','dateNow'));
+    }
+
+    public function dashboard(Request $request)
+    {
+        $orderInfors = Order::when($request->date != null,function($q) use ($request){
+            return $q->whereDate('created_at',$request->date);
+    })
+                    ->when($request->status != null,function($q) use ($request){
+             return $q->where('status_message',$request->status);
+    })
+                    ->paginate(10);
+        return view('admin.dashboard',compact('orderInfors'));
     }
 
     public function show($orderId)
@@ -75,5 +90,22 @@ class OrderControllers extends Controller
         $todayDate = Carbon::now()->format('Y-m-d');
         $pdf = Pdf::loadView('admin.invoice.generate-invoice', $data);
         return $pdf->download('invoice-'.$order->id.'-'.$todayDate.'.pdf');
+    }
+
+    public function mailInvoice(int $orderId)
+    {
+        $order = Order::findOrFail($orderId);
+        $email = User::where('id',$order->user_id)->first()->email;
+        try
+        {
+            Mail::to("$email")->send(new InvoiceOrderMailable($order));
+            return redirect('admin/orders/'.$orderId)->with('message','Invoice Mail has been sent to '.$email);
+        }
+        catch(\Exception $e)
+        {
+            return redirect('admin/orders/'.$orderId)->with('message','Somthing went wrong !');
+
+        }
+
     }
 }

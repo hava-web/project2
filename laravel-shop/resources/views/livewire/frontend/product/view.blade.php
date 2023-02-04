@@ -128,7 +128,7 @@
                 </h3>
             </div>
             
-            < class="row">
+            
                 @if ($category)
                 <div class="owl-carousel owl-theme product-trending">
                     @foreach ($category->relatedProducts as $relatedProduct)

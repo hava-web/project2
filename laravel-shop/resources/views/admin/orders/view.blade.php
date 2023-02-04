@@ -9,7 +9,7 @@
                 <div class="card-header d-flex flex-row-reverse">
                     <a href="{{ url('admin/invoice/'.$orders->id.'/generate') }}" class="btn btn-primary btn-sm float-end ">Download Invoice</a>
                     <a href="{{ url('admin/invoice/'.$orders->id) }}" target="_blank" class="btn btn-warning btn-sm float-end mr-3 ">View Invoice</a>
-                    <a href="{{ url('admin/invoice/'.$orders->id.'/mail') }}" class="btn btn-info btn-sm float-end mx-3 ">Send Invoice Via Email</a>
+                    {{-- <a href="{{ url('admin/invoice/'.$orders->id.'/mail') }}" class="btn btn-info btn-sm float-end mx-3 ">Send Invoice Via Email</a> --}}
                     
                 </div>
                 <div class="shadow bg-white p-3 ">
